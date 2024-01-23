@@ -20,3 +20,14 @@ func (UserService) CreateUser(user *model.User) (err response.ErrorCode) {
 	}
 	return
 }
+
+func (UserService) GetUser(userId int64) (user *model.User, err response.ErrorCode) {
+	var dbErr error
+	user, dbErr = proxyUser.GetUser(userId)
+
+	if dbErr != nil {
+		err = response.ErrDbExec
+		return
+	}
+	return
+}

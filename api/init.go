@@ -1,7 +1,11 @@
 package api
 
-import "auth-server/services"
+import (
+	"auth-server/response"
+	"auth-server/services"
+)
 
 var (
 	userService services.UserService
+	respErr     response.ErrorCode
 )

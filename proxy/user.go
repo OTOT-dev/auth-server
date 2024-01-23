@@ -24,8 +24,7 @@ func (UserProxy) UpdateUser(userId int64, updateUser model.User) (err error) {
 
 func (UserProxy) GetUser(userId int64) (user *model.User, err error) {
 	db := storageEngine.GetStorageDB()
-	user.ID = userId
-	err = db.First(&user).Error
+	err = db.First(&user, userId).Error
 	return
 }
 

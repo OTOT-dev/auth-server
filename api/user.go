@@ -4,6 +4,7 @@ import (
 	"auth-server/model"
 	"auth-server/response"
 	"github.com/gin-gonic/gin"
+	"strconv"
 )
 
 type UserApi struct{}
@@ -19,8 +20,20 @@ func (UserApi) CreateUser(c *gin.Context) {
 	return
 }
 
-func (UserApi) GetUser(gin *gin.Context) {
-
+func (UserApi) GetUser(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		response.Fail(c, response.ErrParam)
+		return
+	}
+	userId, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		response.Fail(c, response.ErrParam)
+		return
+	}
+	user, err1 := userService.GetUser(userId)
+	response.Auto(c, err1, user)
+	return
 }
 
 func (UserApi) UpdateUser(gin *gin.Context) {
