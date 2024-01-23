@@ -23,3 +23,14 @@ func (UserService) CreateUser(user *model.UserProps) (err response.ErrorCode) {
 	}
 	return
 }
+
+func (UserService) GetUser(userId int64) (user *model.UserProps, err response.ErrorCode) {
+	var dbErr error
+	user, dbErr = userDao.GetUser(userId)
+
+	if dbErr != nil {
+		err = response.ErrDbExec
+		return
+	}
+	return
+}

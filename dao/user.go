@@ -24,8 +24,7 @@ func (UserDao) UpdateUser(userId int64, updateUser model.UserProps) (err error) 
 
 func (UserDao) GetUser(userId int64) (user *model.UserProps, err error) {
 	db := storageEngine.GetStorageDB()
-	user.ID = userId
-	err = db.First(&user).Error
+	err = db.First(&user, userId).Error
 	return
 }
 
