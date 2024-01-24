@@ -1,9 +1,15 @@
-package router
+package routes
 
-import "github.com/gin-gonic/gin"
+import (
+	"auth-server/api"
 
-func userRouter(router *gin.RouterGroup) {
-	//user
+	"github.com/gin-gonic/gin"
+)
+
+var apiUser api.UserApi
+
+func UserRouter(router *gin.RouterGroup) {
+	// user
 	router.GET("/users/:id", apiUser.GetUser)
 	router.POST("/users", apiUser.CreateUser)
 	router.PATCH("/users/:id", apiUser.UpdateUser)

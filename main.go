@@ -1,9 +1,9 @@
 package main
 
 import (
-	"auth-server/router"
+	"auth-server/loader"
 )
 
 func main() {
-	router.InitRouter()
+	loader.InitGin()
 }

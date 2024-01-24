@@ -16,7 +16,7 @@ var (
 )
 
 func initConfig() {
-	//环境变量生效优先级 命令航》环境变量》配置文件
+	// 环境变量生效优先级 命令行》环境变量》配置文件
 	if serverHost := os.Getenv("SERVER_HOST"); serverHost != "" {
 		ServerHost = serverHost
 	}
