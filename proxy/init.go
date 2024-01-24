@@ -1,7 +1,5 @@
 package proxy
 
-import "auth-server/storage"
+import "auth-server/loader/storage"
 
-var (
-	storageEngine storage.EngineStorage
-)
+var storageEngine storage.EngineStorage

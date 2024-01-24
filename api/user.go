@@ -3,8 +3,12 @@ package api
 import (
 	"auth-server/model"
 	"auth-server/response"
+	"auth-server/services"
+
 	"github.com/gin-gonic/gin"
 )
+
+var userService services.UserService
 
 type UserApi struct{}
 
@@ -20,13 +24,10 @@ func (UserApi) CreateUser(c *gin.Context) {
 }
 
 func (UserApi) GetUser(gin *gin.Context) {
-
 }
 
 func (UserApi) UpdateUser(gin *gin.Context) {
-
 }
 
 func (UserApi) DeleteUser(gin *gin.Context) {
-
 }

@@ -2,6 +2,7 @@ package storage
 
 import (
 	"auth-server/model"
+
 	log "github.com/sirupsen/logrus"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
