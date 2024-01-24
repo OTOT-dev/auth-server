@@ -1,11 +1,11 @@
 package services
 
 import (
-	"auth-server/proxy"
+	"auth-server/dao"
 	"auth-server/response"
 )
 
 var (
-	proxyUser proxy.UserProxy
-	respErr   response.ErrorCode
+	UserDao dao.UserProxy
+	respErr response.ErrorCode
 )
