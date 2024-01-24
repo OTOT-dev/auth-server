@@ -1,8 +1,8 @@
 package services
 
 import (
+	"auth-server/component/response"
 	"auth-server/dao"
-	"auth-server/response"
 )
 
 var (
