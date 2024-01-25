@@ -4,6 +4,7 @@ import (
 	"auth-server/component/response"
 	"auth-server/model"
 	"auth-server/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -23,8 +24,20 @@ func (UserController) CreateUser(c *gin.Context) {
 	return
 }
 
-func (UserController) GetUser(gin *gin.Context) {
-	println("lalal")
+func (UserController) GetUser(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		response.Fail(c, response.ErrParam)
+		return
+	}
+	userId, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		response.Fail(c, response.ErrParam)
+		return
+	}
+	user, err1 := userService.GetUser(userId)
+	response.Auto(c, err1, user)
+	return
 }
 
 func (UserController) UpdateUser(gin *gin.Context) {
