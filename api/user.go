@@ -1,8 +1,8 @@
 package api
 
 import (
+	"auth-server/component/response"
 	"auth-server/model"
-	"auth-server/response"
 	"auth-server/services"
 
 	"github.com/gin-gonic/gin"

@@ -2,8 +2,8 @@ package services
 
 import (
 	"auth-server/common"
+	"auth-server/component/response"
 	"auth-server/model"
-	"auth-server/response"
 )
 
 type UserService struct{}
