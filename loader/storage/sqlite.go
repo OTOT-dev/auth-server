@@ -31,7 +31,7 @@ func initStorageEngine() (err error) {
 	if err != nil {
 		return
 	}
-	err = db.AutoMigrate(model.User{})
+	err = db.AutoMigrate(model.UserProps{})
 	if err != nil {
 		return
 	}

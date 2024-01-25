@@ -1,7 +1,7 @@
 package model
 
-type User struct {
-	BaseInfo
+type UserProps struct {
+	BaseProps
 	Username string `json:"username" gorm:"unique_index" binding:"required"`
 	Password string `json:"password" binding:"required"`
 	Email    string `json:"email" gorm:"unique_index" binding:"required"`
@@ -9,7 +9,7 @@ type User struct {
 	Salt     string `json:"salt"`
 }
 
-type UpdateUser struct {
+type UserUpdate struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`

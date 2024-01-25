@@ -1,4 +1,4 @@
-package api
+package user
 
 import (
 	"auth-server/component/response"
@@ -10,10 +10,10 @@ import (
 
 var userService services.UserService
 
-type UserApi struct{}
+type UserController struct{}
 
-func (UserApi) CreateUser(c *gin.Context) {
-	var param model.User
+func (UserController) CreateUser(c *gin.Context) {
+	var param model.UserProps
 	if err := c.ShouldBindJSON(&param); err != nil {
 		response.Fail(c, response.ErrParam)
 		return
@@ -23,11 +23,12 @@ func (UserApi) CreateUser(c *gin.Context) {
 	return
 }
 
-func (UserApi) GetUser(gin *gin.Context) {
+func (UserController) GetUser(gin *gin.Context) {
+	println("lalal")
 }
 
-func (UserApi) UpdateUser(gin *gin.Context) {
+func (UserController) UpdateUser(gin *gin.Context) {
 }
 
-func (UserApi) DeleteUser(gin *gin.Context) {
+func (UserController) DeleteUser(gin *gin.Context) {
 }

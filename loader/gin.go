@@ -2,7 +2,6 @@ package loader
 
 import (
 	"auth-server/config"
-	"auth-server/loader/router"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +13,7 @@ func InitGin() {
 	engine := gin.New()
 	engine.Use(gin.Recovery())
 
-	router.InitRouter(engine)
+	InitRouter(engine)
 
 	port := config.ServerPort
 	runParams := config.ServerHost + ":" + strconv.Itoa(port)

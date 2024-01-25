@@ -4,17 +4,17 @@ import (
 	"auth-server/model"
 )
 
-type UserProxy struct{}
+type UserDao struct{}
 
-func (UserProxy) CreateUser(user *model.User) (err error) {
+func (UserDao) CreateUser(user *model.UserProps) (err error) {
 	db := storageEngine.GetStorageDB()
 	err = db.Create(&user).Error
 	return err
 }
 
-func (UserProxy) UpdateUser(userId int64, updateUser model.User) (err error) {
+func (UserDao) UpdateUser(userId int64, updateUser model.UserProps) (err error) {
 	db := storageEngine.GetStorageDB()
-	var user model.User
+	var user model.UserProps
 	user.ID = userId
 	if err = db.Model(&user).Updates(updateUser).Error; err != nil {
 		return
@@ -22,15 +22,15 @@ func (UserProxy) UpdateUser(userId int64, updateUser model.User) (err error) {
 	return
 }
 
-func (UserProxy) GetUser(userId int64) (user *model.User, err error) {
+func (UserDao) GetUser(userId int64) (user *model.UserProps, err error) {
 	db := storageEngine.GetStorageDB()
 	user.ID = userId
 	err = db.First(&user).Error
 	return
 }
 
-func (UserProxy) DeleteUser(userId int64) (err error) {
+func (UserDao) DeleteUser(userId int64) (err error) {
 	db := storageEngine.GetStorageDB()
-	err = db.Delete(&model.User{}, userId).Error
+	err = db.Delete(&model.UserProps{}, userId).Error
 	return
 }
