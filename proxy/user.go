@@ -6,30 +6,39 @@ import (
 
 type UserProxy struct{}
 
-func (UserProxy) CreateUser(user *model.User) (err error) {
+func (UserProxy) CreateUser(user *model.User) (err model.ErrorCode) {
 	db := storageEngine.GetStorageDB()
-	err = db.Create(&user).Error
-	return err
-}
-
-func (UserProxy) UpdateUser(userId int64, updateUser model.User) (err error) {
-	db := storageEngine.GetStorageDB()
-	var user model.User
-	user.ID = userId
-	if err = db.Model(&user).Updates(updateUser).Error; err != nil {
-		return
+	dbErr := db.Create(&user).Error
+	if dbErr != nil {
+		err = model.ErrDb.AddErr(dbErr)
 	}
 	return
 }
 
-func (UserProxy) GetUser(userId int64) (user *model.User, err error) {
+func (UserProxy) UpdateUser(userId int64, updateUser model.User) (err model.ErrorCode) {
 	db := storageEngine.GetStorageDB()
-	err = db.First(&user, userId).Error
+	var user model.User
+	user.ID = userId
+	if dbErr := db.Model(&user).Updates(updateUser).Error; dbErr != nil {
+		err = model.ErrDb.AddErr(dbErr)
+	}
 	return
 }
 
-func (UserProxy) DeleteUser(userId int64) (err error) {
+func (UserProxy) GetUser(userId int64) (user *model.User, err model.ErrorCode) {
 	db := storageEngine.GetStorageDB()
-	err = db.Delete(&model.User{}, userId).Error
+	dbErr := db.First(&user, userId).Error
+	if dbErr != nil {
+		err = model.ErrDb.AddErr(dbErr)
+	}
+	return
+}
+
+func (UserProxy) DeleteUser(userId int64) (err model.ErrorCode) {
+	db := storageEngine.GetStorageDB()
+	dbErr := db.Delete(&model.User{}, userId).Error
+	if dbErr != nil {
+		err = model.ErrDb.AddErr(dbErr)
+	}
 	return
 }
