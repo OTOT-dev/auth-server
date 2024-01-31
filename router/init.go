@@ -3,14 +3,19 @@ package router
 import (
 	"auth-server/api"
 	"auth-server/config"
+	"auth-server/middleware"
+	"reflect"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"strconv"
 )
 
-var (
-	apiUser api.UserApi
-)
+var apiUser api.UserApi
+
+var validate = middleware.ValidatorMiddleware
+
+var typeof = reflect.TypeOf
 
 func InitRouter() {
 	engine := gin.New()

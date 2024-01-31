@@ -4,7 +4,7 @@ type User struct {
 	BaseInfo
 	Username string `json:"username" gorm:"unique_index" binding:"required"`
 	Password string `json:"password" binding:"required"`
-	Email    string `json:"email" gorm:"unique_index" binding:"required"`
+	Email    string `json:"email" gorm:"unique_index" binding:"required" validate:"email"`
 	Avatar   string `json:"avatar"`
 	Salt     string `json:"salt"`
 }

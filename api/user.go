@@ -3,9 +3,9 @@ package api
 import (
 	"auth-server/middleware"
 	"auth-server/model"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"strconv"
 )
 
 type UserApi struct{}
@@ -38,9 +38,7 @@ func (UserApi) GetUser(c *gin.Context) {
 }
 
 func (UserApi) UpdateUser(gin *gin.Context) {
-
 }
 
 func (UserApi) DeleteUser(gin *gin.Context) {
-
 }
