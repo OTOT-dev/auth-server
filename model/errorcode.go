@@ -32,14 +32,19 @@ func responseErrCode(code int, msg string) ErrorCode {
 	}
 }
 
+//ERROR_AUTH_CHECK_TOKEN_FAIL:    "Token鉴权失败",
+//ERROR_AUTH_CHECK_TOKEN_TIMEOUT: "Token已超时",
+//ERROR_AUTH_TOKEN:               "Token生成失败",
+//ERROR_AUTH:                     "Token错误",
+
 var (
-	Err            = responseErrCode(400, "接口错误") // 通用错误
-	ErrParam       = responseErrCode(10001, "参数有误")
-	ErrSignParam   = responseErrCode(10002, "签名参数有误")
-	ErrDb          = responseErrCode(10003, "数据库错误")
-	ErrUserService = responseErrCode(20100, "用户服务异常")
-	ErrUserPhone   = responseErrCode(20101, "用户手机号不合法")
-	ErrUserCaptcha = responseErrCode(20102, "用户验证码有误")
+	Err      = responseErrCode(400, "接口错误") // 通用错误
+	ErrParam = responseErrCode(10001, "参数有误")
+
+	ErrSignParam          = responseErrCode(10002, "签名参数有误")
+	ErrAuthToken          = responseErrCode(10003, "token错误")
+	ErrAuthCheckTokenFail = responseErrCode(10004, "token鉴权失败")
+	ErrDb                 = responseErrCode(20003, "数据库错误")
 
 	// ......
 )

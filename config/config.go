@@ -3,13 +3,16 @@ package config
 import (
 	"os"
 	"strconv"
+	"time"
 )
 
 var (
+	ServerName   = "auth-server" // 服务名称
 	ServerHost   string
 	ServerPort   int
 	DebugMode    bool
-	JwtSecret    string
+	JwtSecret    []byte          //jwt密钥
+	JwtExpire    = 3 * time.Hour //jwt过期时间
 	DataBaseHost string
 	DataBasePort int
 	DataBaseName string
@@ -28,7 +31,7 @@ func initConfig() {
 		DebugMode, _ = strconv.ParseBool(debugMode)
 	}
 	if jwtSecret := os.Getenv("JWT_SECRET"); jwtSecret != "" {
-		JwtSecret = jwtSecret
+		JwtSecret = []byte(jwtSecret)
 	}
 	if dataBaseHost := os.Getenv("DATABASE_HOST"); dataBaseHost != "" {
 		DataBaseHost = dataBaseHost

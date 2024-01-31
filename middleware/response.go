@@ -30,13 +30,18 @@ func Auto(c *gin.Context, err model.ErrorCode, data interface{}) {
 	} else {
 		resp.Data = data
 	}
-	c.JSON(http.StatusOK, resp)
+	c.AbortWithStatusJSON(http.StatusOK, resp)
 }
 
 func Fail(c *gin.Context, error model.ErrorCode) {
-	c.JSON(http.StatusOK, response{
+	var errorData string
+	//当未传入自定义错误时为空
+	if error.Err != nil {
+		errorData = error.Err.Error()
+	}
+	c.AbortWithStatusJSON(http.StatusOK, response{
 		Code: error.Code,
 		Msg:  error.Msg,
-		Data: error.Err.Error(),
+		Data: errorData,
 	})
 }
