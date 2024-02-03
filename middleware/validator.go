@@ -19,7 +19,6 @@ func ValidatorMiddleware(pType, qType, bType reflect.Type) gin.HandlerFunc {
 				Fail(c, model.ErrParam.AddErr(err))
 				return
 			}
-			fmt.Println(params)
 			if err := vd.Struct(params); err != nil {
 				Fail(c, model.ErrParam.AddErr(err))
 				return
