@@ -8,7 +8,7 @@ import (
 
 func userRouter(router *gin.RouterGroup) {
 	// user
-	router.GET("/users/:id", apiUser.GetUser)
+	router.GET("/users/:id", validate(typeof(model.GetUserParams{}), nil, nil), apiUser.GetUser)
 	router.POST("/users", validate(nil, nil, typeof(model.User{})), apiUser.CreateUser)
 	router.PATCH("/users/:id", apiUser.UpdateUser)
 	router.DELETE("/users/:id", apiUser.DeleteUser)
