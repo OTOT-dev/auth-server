@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"auth-server/model"
-	"fmt"
 	"reflect"
 
 	"github.com/gin-gonic/gin"
@@ -30,7 +29,6 @@ func ValidatorMiddleware(pType, qType, bType reflect.Type) gin.HandlerFunc {
 			if err := c.ShouldBindQuery(query); err != nil {
 				Fail(c, model.ErrParam.AddErr(err))
 			}
-			fmt.Println(query)
 			if err := vd.Struct(query); err != nil {
 				Fail(c, model.ErrParam.AddErr(err))
 				return
