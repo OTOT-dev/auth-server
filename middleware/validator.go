@@ -1,50 +1,24 @@
 package middleware
 
 import (
-	"auth-server/model"
-	"reflect"
-
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
+	"github.com/gin-gonic/gin/binding"
 )
 
-func ValidatorMiddleware(pType, qType, bType reflect.Type) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		vd := validator.New()
+func Validate[P, Q, B any](c *gin.Context) (params P, query Q, body B, err error) {
+	if err = c.ShouldBindUri(&params); err != nil {
+		return
+	}
 
-		if pType != nil {
-			params := reflect.New(pType).Interface()
-			if err := c.ShouldBindUri(params); err != nil {
-				Fail(c, model.ErrParam.AddErr(err))
-				return
-			}
-			if err := vd.Struct(params); err != nil {
-				Fail(c, model.ErrParam.AddErr(err))
-				return
-			}
-		}
+	if err = c.ShouldBindWith(&query, binding.Query); err != nil {
+		return
+	}
 
-		if qType != nil {
-			query := reflect.New(qType).Interface()
-			if err := c.ShouldBindQuery(query); err != nil {
-				Fail(c, model.ErrParam.AddErr(err))
-			}
-			if err := vd.Struct(query); err != nil {
-				Fail(c, model.ErrParam.AddErr(err))
-				return
-			}
-		}
-
-		if bType != nil {
-			body := reflect.New(bType).Interface()
-			if err := c.ShouldBindJSON(body); err != nil {
-				Fail(c, model.ErrParam.AddErr(err))
-				return
-			}
-			if err := vd.Struct(body); err != nil {
-				Fail(c, model.ErrParam.AddErr(err))
-				return
-			}
+	if c.Request.ContentLength != 0 {
+		if err = c.ShouldBindBodyWith(&body, binding.JSON); err != nil {
+			return
 		}
 	}
+
+	return
 }

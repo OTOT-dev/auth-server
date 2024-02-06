@@ -2,9 +2,9 @@ package model
 
 type User struct {
 	BaseInfo
-	Username string `json:"username" gorm:"unique_index" binding:"required" validate:"required"`
+	Username string `json:"username" gorm:"unique_index" binding:"required"`
 	Password string `json:"password" binding:"required"`
-	Email    string `json:"email" gorm:"unique_index" binding:"required" validate:"email"`
+	Email    string `json:"email" gorm:"unique_index" binding:"required,email"`
 	Avatar   string `json:"avatar"`
 	Salt     string `json:"salt"`
 }

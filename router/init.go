@@ -4,7 +4,6 @@ import (
 	"auth-server/api"
 	"auth-server/config"
 	"auth-server/middleware"
-	"reflect"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -14,9 +13,6 @@ import (
 var (
 	apiUser api.UserApi
 	apiAuth api.AuthApi
-
-	validate = middleware.ValidatorMiddleware
-	typeof   = reflect.TypeOf
 )
 
 func InitRouter() {
