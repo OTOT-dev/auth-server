@@ -15,17 +15,7 @@ type GetUserParam struct {
 type UserApi struct{}
 
 func (UserApi) CreateUser(c *gin.Context) {
-	// var param model.User
-	// if err := c.ShouldBindJSON(&param); err != nil {
-	// 	middleware.Fail(c, model.ErrParam.AddErr(err))
-	// 	return
-	// }
-
-	_, _, param, err := middleware.Validate[any, any, model.User](c)
-	if err != nil {
-		middleware.Fail(c, model.ErrParam.AddErr(err))
-		return
-	}
+	_, _, param := middleware.Validate[any, any, model.User](c)
 
 	errCreate := userService.CreateUser(&param)
 	middleware.Auto(c, errCreate, nil)
@@ -33,18 +23,7 @@ func (UserApi) CreateUser(c *gin.Context) {
 }
 
 func (UserApi) GetUser(c *gin.Context) {
-	// id := c.Param("id")
-	// if id == "" {
-	// 	middleware.Fail(c, model.ErrParam)
-	// 	return
-	// }
-	// userId, err := strconv.ParseInt(id, 10, 64)
-
-	params, _, _, err := middleware.Validate[GetUserParam, any, any](c)
-	if err != nil {
-		middleware.Fail(c, model.ErrParam.AddErr(err))
-		return
-	}
+	params, _, _ := middleware.Validate[GetUserParam, any, any](c)
 
 	userId, err := strconv.ParseInt(params.Id, 10, 64)
 	if err != nil {
