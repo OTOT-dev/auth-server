@@ -4,9 +4,10 @@ import (
 	"auth-server/api"
 	"auth-server/config"
 	"auth-server/middleware"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-	"strconv"
 )
 
 var (
