@@ -27,6 +27,9 @@ func Auto(c *gin.Context, err model.ErrorCode, data interface{}) {
 	if err.Code != 0 {
 		resp.Code = err.Code
 		resp.Msg = err.Msg
+		if err.Err != nil {
+			resp.Data = err.Err.Error()
+		}
 	} else {
 		resp.Data = data
 	}

@@ -38,12 +38,14 @@ func responseErrCode(code int, msg string) ErrorCode {
 //ERROR_AUTH:                     "Token错误",
 
 var (
-	Err      = responseErrCode(400, "接口错误") // 通用错误
-	ErrParam = responseErrCode(10001, "参数有误")
-
+	Err                   = responseErrCode(400, "接口错误") // 通用错误
+	ErrParam              = responseErrCode(10001, "参数有误")
+	ErrLonginParam        = responseErrCode(10001, "用户名或密码错误")
 	ErrSignParam          = responseErrCode(10002, "签名参数有误")
 	ErrAuthToken          = responseErrCode(10003, "token错误")
-	ErrAuthCheckTokenFail = responseErrCode(10004, "token鉴权失败")
+	ErrGenToken           = responseErrCode(10004, "token生成错误")
+	ErrRegisterParam      = responseErrCode(10005, "用户名已存在")
+	ErrAuthCheckTokenFail = responseErrCode(10005, "token鉴权失败")
 	ErrDb                 = responseErrCode(20003, "数据库错误")
 
 	// ......

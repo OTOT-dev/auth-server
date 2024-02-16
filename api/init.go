@@ -6,4 +6,5 @@ import (
 
 var (
 	userService services.UserService
+	authService services.AuthService
 )

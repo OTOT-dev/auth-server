@@ -14,14 +14,6 @@ type GetUserParam struct {
 
 type UserApi struct{}
 
-func (UserApi) CreateUser(c *gin.Context) {
-	_, _, param := middleware.Validate[any, any, model.User](c)
-
-	errCreate := userService.CreateUser(&param)
-	middleware.Auto(c, errCreate, nil)
-	return
-}
-
 func (UserApi) GetUser(c *gin.Context) {
 	params, _, _ := middleware.Validate[GetUserParam, any, any](c)
 
@@ -36,7 +28,9 @@ func (UserApi) GetUser(c *gin.Context) {
 }
 
 func (UserApi) UpdateUser(gin *gin.Context) {
+
 }
 
 func (UserApi) DeleteUser(gin *gin.Context) {
+
 }

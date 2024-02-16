@@ -16,6 +16,12 @@ type UpdateUser struct {
 	Avatar   string `json:"avatar"`
 }
 
+// LoginUser 用户登陆参数校验
+type LoginUser struct {
+	Username string `json:"username" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
 type GetUserParams struct {
 	Id string `uri:"id" validate:"required"`
 }

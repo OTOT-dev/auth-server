@@ -16,8 +16,9 @@ func JWT() gin.HandlerFunc {
 			err = model.ErrParam.AddErr(errors.New("Authorization为空"))
 		} else {
 			_, parseErr := common.ParseToken(token, config.JwtSecret)
-			err = model.ErrAuthCheckTokenFail.AddErr(parseErr)
-
+			if parseErr != nil {
+				err = model.ErrAuthToken.AddErr(parseErr)
+			}
 		}
 		if err.Code != 0 {
 			Fail(c, err)

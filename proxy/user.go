@@ -2,6 +2,8 @@ package proxy
 
 import (
 	"auth-server/model"
+	"github.com/pkg/errors"
+	"gorm.io/gorm"
 )
 
 type UserProxy struct{}
@@ -25,12 +27,29 @@ func (UserProxy) UpdateUser(userId int64, updateUser model.User) (err model.Erro
 	return
 }
 
-func (UserProxy) GetUser(userId int64) (user *model.User, err model.ErrorCode) {
+func (UserProxy) GetUserById(userId int64) (user model.User, found bool, err model.ErrorCode) {
 	db := storageEngine.GetStorageDB()
 	dbErr := db.First(&user, userId).Error
-	if dbErr != nil {
+	if errors.Is(dbErr, gorm.ErrRecordNotFound) {
+	} else if dbErr != nil {
 		err = model.ErrDb.AddErr(dbErr)
+	} else {
+		found = true
 	}
+	return
+}
+
+func (UserProxy) GetUserByUsername(userName string) (user model.User, found bool, err model.ErrorCode) {
+	db := storageEngine.GetStorageDB()
+	user.Username = userName
+	dbErr := db.First(&user).Error
+	if errors.Is(dbErr, gorm.ErrRecordNotFound) {
+	} else if dbErr != nil {
+		err = model.ErrDb.AddErr(dbErr)
+	} else {
+		found = true
+	}
+
 	return
 }
 

@@ -18,7 +18,10 @@ var (
 func InitRouter() {
 	engine := gin.New()
 	engine.Use(gin.Recovery())
-
+	// 登陆认证相关路由
+	authRouterGroup := engine.Group("/api/v1")
+	authRouter(authRouterGroup)
+	// 用户登陆
 	userRouterGroup := engine.Group("/api/v1")
 	userRouterGroup.Use(middleware.JWT())
 	userRouter(userRouterGroup)
