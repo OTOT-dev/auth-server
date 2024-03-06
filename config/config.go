@@ -7,19 +7,21 @@ import (
 )
 
 var (
-	ServerName   = "auth-server" // 服务名称
-	ServerHost   string
-	ServerPort   int
-	DebugMode    bool
-	JwtSecret    []byte          //jwt密钥
-	JwtExpire    = 3 * time.Hour //jwt过期时间
-	DataBaseHost string
-	DataBasePort int
-	DataBaseName string
+	ServerName    = "auth-server" // 服务名称
+	ServerHost    string
+	ServerPort    int
+	DebugMode     bool
+	JwtSecret     []byte          //jwt密钥
+	JwtExpire     = 3 * time.Hour //jwt过期时间
+	SessionExpire = 3600 * 1      // session过期时间 1h
+	SessionSecret = "bGjW7xiMrxC9lmXN"
+	DataBaseHost  string
+	DataBasePort  int
+	DataBaseName  string
 )
 
 func initConfig() {
-	//环境变量生效优先级 命令航》环境变量》配置文件
+	//环境变量生效优先级 命令行》环境变量》配置文件
 	if serverHost := os.Getenv("SERVER_HOST"); serverHost != "" {
 		ServerHost = serverHost
 	}
@@ -41,5 +43,8 @@ func initConfig() {
 	}
 	if dataBaseName := os.Getenv("DATABASE_NAME"); dataBaseName != "" {
 		DataBaseName = dataBaseName
+	}
+	if sessionSecret := os.Getenv("SESSION_SECRET"); sessionSecret != "" {
+		SessionSecret = sessionSecret
 	}
 }

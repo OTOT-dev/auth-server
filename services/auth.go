@@ -2,8 +2,9 @@ package services
 
 import (
 	"auth-server/common"
-	"auth-server/config"
 	"auth-server/model"
+	"github.com/gin-gonic/contrib/sessions"
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
 )
 
@@ -34,7 +35,7 @@ func (AuthService) Register(user *model.User) (err model.ErrorCode) {
 	return
 }
 
-func (AuthService) Login(loginUser model.LoginUser) (token string, err model.ErrorCode) {
+func (AuthService) Login(loginUser model.LoginUser, c *gin.Context) (err model.ErrorCode) {
 	var user model.User
 	var found bool
 	user, found, err = proxyUser.GetUserByUsername(loginUser.Username)
@@ -51,11 +52,21 @@ func (AuthService) Login(loginUser model.LoginUser) (token string, err model.Err
 		err = model.ErrLonginParam
 		return
 	}
-	var genTokenErr error
-	token, genTokenErr = common.GenerateToken(loginUser.Username, config.JwtSecret, config.JwtExpire, config.ServerName)
-	if genTokenErr != nil {
-		err = model.ErrGenToken.AddErr(genTokenErr)
-		return
+	sess := sessions.Default(c)
+	sess.Set("user", user.ID)
+	saveErr := sess.Save()
+	if saveErr != nil {
+		err = model.ErrSession.AddErr(saveErr)
+	}
+	return
+}
+
+func (AuthService) Logout(c *gin.Context) (err model.ErrorCode) {
+	sess := sessions.Default(c)
+	sess.Clear()
+	saveErr := sess.Save()
+	if saveErr != nil {
+		err = model.ErrSession.AddErr(saveErr)
 	}
 	return
 }

@@ -14,10 +14,8 @@ func (AuthApi) Login(c *gin.Context) {
 		middleware.Fail(c, model.ErrParam.AddErr(err))
 		return
 	}
-	token, err := authService.Login(param)
-	middleware.Auto(c, err, map[string]string{
-		"token": token,
-	})
+	err := authService.Login(param, c)
+	middleware.Auto(c, err, nil)
 	return
 }
 
@@ -30,4 +28,9 @@ func (AuthApi) Register(c *gin.Context) {
 	err := authService.Register(&param)
 	middleware.Auto(c, err, nil)
 	return
+}
+
+func (AuthApi) Logout(c *gin.Context) {
+	err := authService.Logout(c)
+	middleware.Auto(c, err, nil)
 }
