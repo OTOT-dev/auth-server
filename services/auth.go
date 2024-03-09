@@ -46,8 +46,8 @@ func (AuthService) Login(loginUser model.LoginUser, c *gin.Context) (err model.E
 		err = model.ErrLonginParam.AddErr(UserNotFoundErr)
 		return
 	}
-	slat := user.Salt
-	enPassword := common.MD5(slat + loginUser.Password)
+	salt := user.Salt
+	enPassword := common.MD5(salt + loginUser.Password)
 	if enPassword != user.Password {
 		err = model.ErrLonginParam
 		return
