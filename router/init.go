@@ -4,8 +4,9 @@ import (
 	"auth-server/api"
 	"auth-server/config"
 	"auth-server/middleware"
-	"github.com/gin-gonic/contrib/sessions"
 	"strconv"
+
+	"github.com/gin-gonic/contrib/sessions"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"

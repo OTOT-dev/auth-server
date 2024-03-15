@@ -1,0 +1,9 @@
+info:
+  contact: {}
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      responses: {}
+swagger: "2.0"

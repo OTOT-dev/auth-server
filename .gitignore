@@ -1,5 +1,7 @@
 .idea
 *.db
 
+tmp
+
 # other
 **/*.DS_Store
