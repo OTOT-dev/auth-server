@@ -6,3 +6,11 @@
 
 ## 参考
 https://github.com/marmotedu/iam/tree/v1.0.0
+
+## 快速开始
+
+- 启动项目-开发（含热加载）
+
+  ```sh
+  air
+  ```

@@ -14,6 +14,10 @@ type GetUserParam struct {
 
 type UserApi struct{}
 
+// @title 获取用户
+// @version 1.0
+// @accept json
+// @router /users [get]
 func (UserApi) GetUser(c *gin.Context) {
 	params, _, _ := middleware.Validate[GetUserParam, any, any](c)
 
@@ -28,9 +32,7 @@ func (UserApi) GetUser(c *gin.Context) {
 }
 
 func (UserApi) UpdateUser(gin *gin.Context) {
-
 }
 
 func (UserApi) DeleteUser(gin *gin.Context) {
-
 }
