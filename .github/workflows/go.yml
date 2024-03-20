@@ -5,7 +5,7 @@ name: Go
 
 on:
   push:
-    branches: ["dev"]
+    branches: ["dev", "swagger-fzw"]
 
 jobs:
   build:
