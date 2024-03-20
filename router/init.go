@@ -28,6 +28,9 @@ func InitRouter() {
 	})
 	engine.Use(sessions.Sessions("sid", store))
 
+	// 日志设置
+	engine.Use(middleware.LogMiddleware())
+
 	// 登陆认证相关路由
 	authRouterGroup := engine.Group("/auth")
 	authRouter(authRouterGroup)
