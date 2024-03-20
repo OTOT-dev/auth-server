@@ -18,5 +18,8 @@ jobs:
         with:
           go-version: "1.20"
 
+      - name: Install
+        run: go install swag
+
       - name: Build
         run: swag init && go build
