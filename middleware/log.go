@@ -2,9 +2,12 @@ package middleware
 
 import (
 	"auth-server/common"
+	"auth-server/config"
+	"bytes"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
+	"io"
 	"net/http"
 	"time"
 )
@@ -28,6 +31,12 @@ func LogMiddleware() gin.HandlerFunc {
 		start := time.Now()
 		path := c.Request.URL.Path
 		raw := c.Request.URL.RawQuery
+		prams := ""
+		if config.DebugMode && c.ContentType() == "application/json" {
+			ByteBody, _ := io.ReadAll(c.Request.Body)
+			c.Request.Body = io.NopCloser(bytes.NewBuffer(ByteBody))
+			prams = string(ByteBody)
+		}
 
 		// Process request
 		c.Next()
@@ -75,13 +84,26 @@ func LogMiddleware() gin.HandlerFunc {
 			"clientIp": clientIP,
 			"timeSub":  timeSub,
 		}
-		log.WithFields(fields).Infof("[GIN] %s |%s| %ss| %s | %s | %f",
-			start.Format("2006-01-02 15:04:06"),
-			statusColor,
-			clientIP,
-			methodColor,
-			path,
-			timeSub,
-		)
+		if config.DebugMode {
+			log.WithFields(fields).Infof("[GIN] %s |%s| %ss| %s | %s | %f \n %s",
+				start.Format("2006-01-02 15:04:06"),
+				statusColor,
+				clientIP,
+				methodColor,
+				path,
+				timeSub,
+				prams,
+			)
+		} else {
+			log.WithFields(fields).Infof("[GIN] %s |%s| %ss| %s | %s | %f",
+				start.Format("2006-01-02 15:04:06"),
+				statusColor,
+				clientIP,
+				methodColor,
+				path,
+				timeSub,
+			)
+		}
+
 	}
 }

@@ -17,6 +17,11 @@ var (
 )
 
 func InitRouter() {
+	//是否开启debug模式
+	if !config.DebugMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	engine := gin.New()
 	engine.Use(gin.Recovery())
 
