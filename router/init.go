@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 
+	swaggerFiles "github.com/swaggo/files"
 	swaggerfiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
@@ -24,6 +25,7 @@ var (
 func InitRouter() {
 	engine := gin.New()
 	engine.Use(gin.Recovery())
+	engine.Use(ginSwagger.WrapHandler(swaggerFiles.Handler))
 	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
 	docs.SwaggerInfo.BasePath = "/api/v1"
 

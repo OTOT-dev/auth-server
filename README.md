@@ -17,4 +17,6 @@ https://github.com/marmotedu/iam/tree/v1.0.0
   air
   ```
 
+- 查看接口文档
 
+跑起项目后，前往http://<BaseUrl>/swagger/index.html查看。
