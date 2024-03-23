@@ -6,3 +6,17 @@
 
 ## 参考
 https://github.com/marmotedu/iam/tree/v1.0.0
+
+- [go swagg api文档](https://github.com/swaggo/swag/blob/master/README_zh-CN.md#%E5%A3%B0%E6%98%8E%E5%BC%8F%E6%B3%A8%E9%87%8A%E6%A0%BC%E5%BC%8F)
+
+## 快速开始
+
+- 启动项目-开发（含热加载）
+
+  ```sh
+  air
+  ```
+
+- 查看接口文档
+
+跑起项目后，前往http://<BaseUrl>/swagger/index.html查看。

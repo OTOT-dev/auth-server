@@ -3,9 +3,13 @@ package router
 import (
 	"auth-server/api"
 	"auth-server/config"
+	"auth-server/docs"
 	"auth-server/middleware"
-	"github.com/gin-gonic/contrib/sessions"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"strconv"
+
+	"github.com/gin-gonic/contrib/sessions"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
@@ -24,6 +28,9 @@ func InitRouter() {
 
 	engine := gin.New()
 	engine.Use(gin.Recovery())
+
+	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	// session 设置
 	store := sessions.NewCookieStore([]byte(config.SessionSecret))

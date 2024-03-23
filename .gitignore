@@ -1,6 +1,10 @@
 .idea
 *.db
 
+tmp
+
+docs
+
 # other
 **/*.DS_Store
 log/
