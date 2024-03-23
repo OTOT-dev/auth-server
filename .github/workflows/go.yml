@@ -5,7 +5,7 @@ name: Go
 
 on:
   push:
-    branches: ["dev"]
+    branches: ["dev", "swagger-fzw"]
 
 jobs:
   build:
@@ -16,7 +16,10 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4
         with:
-          go-version: "1.20"
+          go-version: "1.22"
+
+      - name: Install
+        run: go install github.com/swaggo/swag/cmd/swag@latest
 
       - name: Build
-        run: go build
+        run: swag init && go build
