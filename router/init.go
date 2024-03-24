@@ -5,9 +5,10 @@ import (
 	"auth-server/config"
 	"auth-server/docs"
 	"auth-server/middleware"
+	"strconv"
+
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"strconv"
 
 	"github.com/gin-gonic/contrib/sessions"
 
@@ -29,7 +30,10 @@ func InitRouter() {
 	engine := gin.New()
 	engine.Use(gin.Recovery())
 
-	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	if config.DebugMode {
+		engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	}
+
 	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	// session 设置
@@ -46,11 +50,11 @@ func InitRouter() {
 	// 登陆认证相关路由
 	authRouterGroup := engine.Group("/auth")
 	authRouter(authRouterGroup)
-	// 用户登陆
-	userRouterGroup := engine.Group("/api/v1")
-	userRouterGroup.Use(middleware.SessionAuth())
+	// 业务路由
+	serviceRouterGroup := engine.Group("/api/v1")
+	serviceRouterGroup.Use(middleware.SessionAuth())
+	userRouter(serviceRouterGroup)
 
-	userRouter(userRouterGroup)
 	port := config.ServerPort
 	runParams := config.ServerHost + ":" + strconv.Itoa(port)
 	log.Println("master server at ", runParams)
