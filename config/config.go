@@ -18,6 +18,7 @@ var (
 	DataBaseHost  string
 	DataBasePort  int
 	DataBaseName  string
+	LogPath       = "./log"
 )
 
 func initConfig() {
@@ -46,5 +47,8 @@ func initConfig() {
 	}
 	if sessionSecret := os.Getenv("SESSION_SECRET"); sessionSecret != "" {
 		SessionSecret = sessionSecret
+	}
+	if logPath := os.Getenv("LOG_PATH"); logPath != "" {
+		LogPath = logPath
 	}
 }

@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"auth-server/common"
 	"auth-server/model"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -22,7 +23,6 @@ func Success(c *gin.Context, data interface{}) {
 
 // Auto 根据传入的内容自动推断是属于正确还是错误
 func Auto(c *gin.Context, err model.ErrorCode, data interface{}) {
-	// todo 将具体的日志错误输出到文件中
 	var resp response
 	if err.Code != 0 {
 		resp.Code = err.Code
@@ -30,6 +30,7 @@ func Auto(c *gin.Context, err model.ErrorCode, data interface{}) {
 		if err.Err != nil {
 			resp.Data = err.Err.Error()
 		}
+		common.Log.Error(resp)
 	} else {
 		resp.Data = data
 	}
@@ -42,9 +43,11 @@ func Fail(c *gin.Context, error model.ErrorCode) {
 	if error.Err != nil {
 		errorData = error.Err.Error()
 	}
-	c.AbortWithStatusJSON(http.StatusOK, response{
+	resp := response{
 		Code: error.Code,
 		Msg:  error.Msg,
 		Data: errorData,
-	})
+	}
+	common.Log.Error(resp)
+	c.AbortWithStatusJSON(http.StatusOK, resp)
 }

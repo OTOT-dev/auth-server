@@ -5,16 +5,14 @@ import (
 	"auth-server/config"
 	"auth-server/docs"
 	"auth-server/middleware"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"strconv"
 
 	"github.com/gin-gonic/contrib/sessions"
 
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
-
-	swaggerFiles "github.com/swaggo/files"
-	swaggerfiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 var (
@@ -23,10 +21,15 @@ var (
 )
 
 func InitRouter() {
+	//是否开启debug模式
+	if !config.DebugMode {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	engine := gin.New()
 	engine.Use(gin.Recovery())
-	engine.Use(ginSwagger.WrapHandler(swaggerFiles.Handler))
-	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+
+	engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	docs.SwaggerInfo.BasePath = "/api/v1"
 
 	// session 设置
@@ -36,6 +39,9 @@ func InitRouter() {
 		MaxAge: config.SessionExpire, // 设置超时时间为一个小时
 	})
 	engine.Use(sessions.Sessions("sid", store))
+
+	// 日志设置
+	engine.Use(middleware.LogMiddleware())
 
 	// 登陆认证相关路由
 	authRouterGroup := engine.Group("/auth")
