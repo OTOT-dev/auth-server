@@ -21,5 +21,7 @@ jobs:
       - name: Install
         run: go install github.com/swaggo/swag/cmd/swag@latest
 
+      # 生成swag信息
+      # build项目
       - name: Build
         run: swag init && go build
