@@ -23,7 +23,6 @@ func Success(c *gin.Context, data interface{}) {
 
 // Auto 根据传入的内容自动推断是属于正确还是错误
 func Auto(c *gin.Context, err model.ErrorCode, data interface{}) {
-	// todo 将具体的日志错误输出到文件中
 	var resp response
 	if err.Code != 0 {
 		resp.Code = err.Code

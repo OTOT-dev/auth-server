@@ -15,15 +15,15 @@ import (
 var log = common.Log
 
 const (
-	status200 = 42
-	status404 = 43
-	status500 = 41
-	status400 = 40
+	statusColor200 = 42
+	statusColor404 = 43
+	statusColor500 = 41
+	statusColor400 = 40
 
-	methodGET   = 44
-	methodPOST  = 45
-	methodPATCH = 46
-	methodDELTE = 47
+	methodColorGET   = 44
+	methodColorPOST  = 45
+	methodColorPATCH = 46
+	methodColorDELTE = 47
 )
 
 func LogMiddleware() gin.HandlerFunc {
@@ -31,11 +31,11 @@ func LogMiddleware() gin.HandlerFunc {
 		start := time.Now()
 		path := c.Request.URL.Path
 		raw := c.Request.URL.RawQuery
-		prams := ""
+		params := ""
 		if config.DebugMode && c.ContentType() == "application/json" {
 			ByteBody, _ := io.ReadAll(c.Request.Body)
 			c.Request.Body = io.NopCloser(bytes.NewBuffer(ByteBody))
-			prams = string(ByteBody)
+			params = string(ByteBody)
 		}
 
 		// Process request
@@ -55,25 +55,25 @@ func LogMiddleware() gin.HandlerFunc {
 		var statusColor string
 		switch statusCode {
 		case http.StatusOK:
-			statusColor = fmt.Sprintf("\033[%dm %d \033[0m", status200, statusCode)
+			statusColor = fmt.Sprintf("\033[%dm %d \033[0m", statusColor200, statusCode)
 		case http.StatusNotFound:
-			statusColor = fmt.Sprintf("\033[%dm %d \033[0m", status404, statusCode)
+			statusColor = fmt.Sprintf("\033[%dm %d \033[0m", statusColor404, statusCode)
 		case http.StatusBadRequest:
-			statusColor = fmt.Sprintf("\033[%dm %d \033[0m", status400, statusCode)
+			statusColor = fmt.Sprintf("\033[%dm %d \033[0m", statusColor400, statusCode)
 		case http.StatusInternalServerError:
-			statusColor = fmt.Sprintf("\033[%dm %d \033[0m", status500, statusCode)
+			statusColor = fmt.Sprintf("\033[%dm %d \033[0m", statusColor500, statusCode)
 		}
 
 		var methodColor string
 		switch method {
 		case http.MethodGet:
-			methodColor = fmt.Sprintf("\033[%dm %s \033[0m", methodGET, method)
+			methodColor = fmt.Sprintf("\033[%dm %s \033[0m", methodColorGET, method)
 		case http.MethodDelete:
-			methodColor = fmt.Sprintf("\033[%dm %s \033[0m", methodDELTE, method)
+			methodColor = fmt.Sprintf("\033[%dm %s \033[0m", methodColorDELTE, method)
 		case http.MethodPost:
-			methodColor = fmt.Sprintf("\033[%dm %s \033[0m", methodPOST, method)
+			methodColor = fmt.Sprintf("\033[%dm %s \033[0m", methodColorPOST, method)
 		case http.MethodPatch:
-			methodColor = fmt.Sprintf("\033[%dm %s \033[0m", methodPATCH, method)
+			methodColor = fmt.Sprintf("\033[%dm %s \033[0m", methodColorPATCH, method)
 		}
 		// 写入到文件中不包含相关到颜色编码，所以需要额外到字段来存储原始信息
 		fields := logrus.Fields{
@@ -85,14 +85,14 @@ func LogMiddleware() gin.HandlerFunc {
 			"timeSub":  timeSub,
 		}
 		if config.DebugMode {
-			log.WithFields(fields).Infof("[GIN] %s |%s| %ss| %s | %s | %f \n %s",
+			log.WithFields(fields).Infof("[GIN] %s |%s| %s| %s | %s | %fs \n %s",
 				start.Format("2006-01-02 15:04:06"),
 				statusColor,
 				clientIP,
 				methodColor,
 				path,
 				timeSub,
-				prams,
+				params,
 			)
 		} else {
 			log.WithFields(fields).Infof("[GIN] %s |%s| %ss| %s | %s | %f",
