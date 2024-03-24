@@ -95,7 +95,7 @@ func LogMiddleware() gin.HandlerFunc {
 				params,
 			)
 		} else {
-			log.WithFields(fields).Infof("[GIN] %s |%s| %ss| %s | %s | %f",
+			log.WithFields(fields).Infof("[GIN] %s |%s| %s| %s | %s | %fs",
 				start.Format("2006-01-02 15:04:06"),
 				statusColor,
 				clientIP,
